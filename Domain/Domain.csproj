@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <Folder Include="Learning\Model\Aggregates\" />
-    <Folder Include="Learning\Model\Commands\" />
-    <Folder Include="Learning\Model\Entities\" />
-    <Folder Include="Learning\Model\Queries\" />
     <Folder Include="Learning\Model\ValueObjects\" />
-    <Folder Include="Learning\Repositories\" />
-    <Folder Include="Learning\Services\" />
-    <Folder Include="Security\" />
+    <Folder Include="Security\Model\Aggregates\" />
+    <Folder Include="Security\Model\Commands\" />
+    <Folder Include="Security\Model\Queries\" />
+    <Folder Include="Security\Model\ValueObjects\" />
+    <Folder Include="Security\Repositories\" />
+    <Folder Include="Security\Services\" />
   </ItemGroup>
 
 </Project>

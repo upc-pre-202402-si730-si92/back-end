@@ -9,8 +9,6 @@
   <ItemGroup>
     <Folder Include="Learning\CommandServices\" />
     <Folder Include="Learning\QueryServices\" />
-    <Folder Include="Security\CommandServices\" />
-    <Folder Include="Security\QueryServices\" />
   </ItemGroup>
 
   <ItemGroup>

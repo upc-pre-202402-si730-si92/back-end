@@ -1,5 +1,6 @@
 ﻿using Domain.Shared;
 using Infrastructure.Shared.Persistence.EFC.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Shared.Persistence.EFC.Repositories;
 
