@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Learning\" />
+    <Folder Include="Learning\Model\Aggregates\" />
+    <Folder Include="Learning\Model\Commands\" />
+    <Folder Include="Learning\Model\Entities\" />
+    <Folder Include="Learning\Model\Queries\" />
+    <Folder Include="Learning\Model\ValueObjects\" />
+    <Folder Include="Learning\Repositories\" />
+    <Folder Include="Learning\Services\" />
     <Folder Include="Security\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

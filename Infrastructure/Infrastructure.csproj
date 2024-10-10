@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Learning\" />
-    <Folder Include="Persistence\EFC\Repositories\" />
     <Folder Include="Security\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
