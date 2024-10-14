@@ -5,5 +5,4 @@ namespace Domain.Learning.Repositories;
 
 public interface ITutorialRepository : IBaseRepository<Tutorial>
 {
-
 }

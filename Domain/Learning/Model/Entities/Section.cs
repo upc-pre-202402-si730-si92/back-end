@@ -2,7 +2,6 @@
 
 namespace Domain.Learning.Model.Entities;
 
-public class Section:ModelBase
+public class Section : ModelBase
 {
-    
 }

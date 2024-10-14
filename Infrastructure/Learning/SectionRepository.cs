@@ -1,6 +1,5 @@
 ﻿namespace Infrastructure.Learning;
 
-public class SectionRepository 
+public class SectionRepository
 {
-    
 }

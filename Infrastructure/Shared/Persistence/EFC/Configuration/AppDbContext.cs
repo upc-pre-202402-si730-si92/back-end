@@ -21,9 +21,7 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-        {
             optionsBuilder.UseMySQL("server=localhost;user=root;password=Upc123!;database=learning-center-db");
-        }
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

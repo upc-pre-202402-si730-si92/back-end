@@ -7,20 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
-        <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6"/>
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.5"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Learning\Controllers\" />
-      <Folder Include="Security\Controllers\" />
+        <Folder Include="Learning\Controllers\"/>
+        <Folder Include="Security\Controllers\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Application\Application.csproj"/>
     </ItemGroup>
 
 </Project>

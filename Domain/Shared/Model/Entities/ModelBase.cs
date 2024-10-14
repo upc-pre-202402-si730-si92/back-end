@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Domain.Shared.Model.Entities;
+﻿namespace Domain.Shared.Model.Entities;
 
 public class ModelBase
 {
@@ -13,6 +11,6 @@ public class ModelBase
     public DateTime CreatedDate { get; set; }
 
     public DateTime? UpdatedDate { get; set; }
-    
+
     public bool IsActive { get; set; }
 }

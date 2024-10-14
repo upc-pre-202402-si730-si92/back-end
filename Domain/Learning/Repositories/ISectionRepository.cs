@@ -3,7 +3,6 @@ using Domain.Shared;
 
 namespace Domain.Learning.Repositories;
 
-public interface  ISectionRepository : IBaseRepository<Section>
+public interface ISectionRepository : IBaseRepository<Section>
 {
-    
 }

@@ -25,7 +25,7 @@ builder.Services.AddDbContext<AppDbContext>(
             else if (builder.Environment.IsProduction())
                 options.UseMySQL(connectionString)
                     .LogTo(Console.WriteLine, LogLevel.Error)
-                    .EnableDetailedErrors(); 
+                    .EnableDetailedErrors();
     });
 
 var app = builder.Build();

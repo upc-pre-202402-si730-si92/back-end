@@ -2,7 +2,6 @@
 
 namespace Domain.Security.Model.Entities;
 
-public class User :ModelBase
+public class User : ModelBase
 {
-    
 }
