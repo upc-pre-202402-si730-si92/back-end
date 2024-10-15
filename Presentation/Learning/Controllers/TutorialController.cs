@@ -1,3 +1,7 @@
+using Application.Learning.QueryServices;
+using Domain.Learning.Model.Entities;
+using Domain.Learning.Model.Queries;
+using Domain.Learning.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Learning.Controllers;
@@ -6,11 +10,19 @@ namespace Presentation.Learning.Controllers;
 [ApiController]
 public class TutorialController : ControllerBase
 {
+    private readonly ITutorialQueryService _tutorialQueryService;
+    public TutorialController(ITutorialQueryService tutorialQueryService)
+    {
+        _tutorialQueryService = tutorialQueryService;
+    }
+    
+    
     // GET: api/<Tutorial>
     [HttpGet]
-    public IEnumerable<string> Get()
+    public  async Task<IEnumerable<Tutorial>> Get()
     {
-        return new[] { "value1", "value2" };
+        var query = new GetAllTutorialsQuery();
+      return  await _tutorialQueryService.Handle(query);
     }
 
     // GET api/<Tutorial>/5
