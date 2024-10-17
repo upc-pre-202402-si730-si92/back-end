@@ -6,17 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Learning;
 
-public class TutorialRepository :  ITutorialRepository
+public class TutorialRepository(AppDbContext context) : BaseRepository<Tutorial>(context), ITutorialRepository
 {
-    private readonly AppDbContext _dbContext;
-    public TutorialRepository(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    public Task AddAsync(Tutorial entity)
-    {
-        throw new NotImplementedException();
-    }
+
 
     public Task<Tutorial?> FindByIdAsync(int id)
     {
@@ -35,7 +27,7 @@ public class TutorialRepository :  ITutorialRepository
 
     public async Task<IEnumerable<Tutorial>> ListAsync()
     {
-        return await _dbContext.Tutorials.ToListAsync();
+        return await context.Tutorials.ToListAsync();
         // ORM
         //Select * from Tutorial
     }

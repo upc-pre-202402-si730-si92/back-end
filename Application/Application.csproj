@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Learning\CommandServices\"/>
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
+      <Folder Include="Security\CommandServices\" />
     </ItemGroup>
 
 </Project>

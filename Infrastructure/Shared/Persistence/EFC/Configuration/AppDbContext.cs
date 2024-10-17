@@ -2,17 +2,21 @@
 using Domain.Security.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Shared.Persistence.EFC.Configuration;
 
 public class AppDbContext : DbContext
-{
-    public AppDbContext()
-    {
+{    
+    private readonly IConfiguration _configuration;
+    public AppDbContext(IConfiguration configuration)
+    {       
+        _configuration = configuration;
     }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
+    public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
+    {       
+        _configuration = configuration;
     }
 
     public DbSet<Tutorial> Tutorials { get; set; }
@@ -22,7 +26,7 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseMySQL("server=localhost;user=root;password=Upc123!;database=learning-center-db");
+            optionsBuilder.UseMySQL(_configuration["ConnectionStrings:learningCenterConnection"]);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -31,11 +35,10 @@ public class AppDbContext : DbContext
 
         // FLuent API
         builder.Entity<Tutorial>().ToTable("Tutorial")
-            .Property(c => c.Title).HasMaxLength(25);
+            .Property(c => c.Title).HasMaxLength(25).IsRequired();
 
         builder.Entity<Tutorial>().ToTable("Tutorial")
             .Property(c => c.Summary).HasMaxLength(300)
-            .IsRequired()
             .HasDefaultValue("Test title");
 
         builder.Entity<Tutorial>().ToTable("Tutorial")

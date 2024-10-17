@@ -1,8 +1,10 @@
 using Application.Learning.QueryServices;
+using Domain.Learning.Model.Commands;
 using Domain.Learning.Model.Entities;
 using Domain.Learning.Model.Queries;
 using Domain.Learning.Services;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Learning.Resources;
 
 namespace Presentation.Learning.Controllers;
 
@@ -11,9 +13,11 @@ namespace Presentation.Learning.Controllers;
 public class TutorialController : ControllerBase
 {
     private readonly ITutorialQueryService _tutorialQueryService;
-    public TutorialController(ITutorialQueryService tutorialQueryService)
+    private readonly ITutorialCommandService _tutorialCommandService;
+    public TutorialController(ITutorialQueryService tutorialQueryService,ITutorialCommandService tutorialCommandService)
     {
         _tutorialQueryService = tutorialQueryService;
+        _tutorialCommandService = tutorialCommandService;
     }
     
     
@@ -34,19 +38,40 @@ public class TutorialController : ControllerBase
 
     // POST api/<Tutorial>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] CreateTutorialResource data)
     {
+        try
+        {
+            var command = new CreateTutorialCommand(data.Title, data.Summary);
+
+            await _tutorialCommandService.Handle(command);
+
+            return StatusCode(201);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500);
+        }
     }
 
     // PUT api/<Tutorial>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public async Task<IActionResult>  Put(int id, [FromBody] string value)
     {
+        return Ok();
     }
+    
+    // PUT api/<Tutorial>/5
+   // [HttpPatch("{id}")]
+   // public void Patch(int id, [FromBody] string value)
+   // {
+   // }
+
 
     // DELETE api/<Tutorial>/5
     [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
+    public async Task<IActionResult>  Delete(int id)
+    {    
+        return Ok();
     }
 }

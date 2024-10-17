@@ -1,9 +1,11 @@
+using Application.Learning.CommandServices;
 using Application.Learning.QueryServices;
-using Application.Security.CommandServices;
 using Domain.Learning.Repositories;
 using Domain.Learning.Services;
+using Domain.Shared;
 using Infrastructure.Learning;
 using Infrastructure.Shared.Persistence.EFC.Configuration;
+using Infrastructure.Shared.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITutorialRepository, TutorialRepository>();
 builder.Services.AddScoped<ITutorialQueryService, TutorialQueryService>();
 builder.Services.AddScoped<ITutorialCommandService, TutorialCommandService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 
 //Conexion a MySQL 
@@ -43,12 +47,7 @@ var app = builder.Build();
 
 
 
-using (var scope = app.Services.CreateScope())
-using (var context = scope.ServiceProvider.GetService<AppDbContext>())
-{
-    context.Database.EnsureCreated();
-}
-
+EnsureDatabaseCreation(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -63,3 +62,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Method to handle database creation
+void EnsureDatabaseCreation(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated();
+    }
+}

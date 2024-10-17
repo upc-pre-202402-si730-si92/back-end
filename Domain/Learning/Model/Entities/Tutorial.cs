@@ -9,4 +9,6 @@ public class Tutorial : ModelBase
     [Required]
     public string Title { get; set; }
     public string Summary { get; set; }
+    
+    //public int Quantity { get; set; }
 }
