@@ -1,3 +1,4 @@
+using Domain.Learning.Model.Commands;
 using Domain.Learning.Model.Queries;
 using Domain.Learning.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,75 +9,80 @@ namespace Presentation.Learning.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TutorialController : ControllerBase
+public class TutorialController(
+    ITutorialQueryService tutorialQueryService,
+    ITutorialCommandService tutorialCommandService)
+    : ControllerBase
 {
-    private readonly ITutorialCommandService _tutorialCommandService;
-    private readonly ITutorialQueryService _tutorialQueryService;
-
-    public TutorialController(ITutorialQueryService tutorialQueryService,
-        ITutorialCommandService tutorialCommandService)
-    {
-        _tutorialQueryService = tutorialQueryService;
-        _tutorialCommandService = tutorialCommandService;
-    }
-
-
-    // GET: api/<Tutorial>
+    // GET: api/tutorial
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
         var query = new GetAllTutorialsQuery();
-        var result = await _tutorialQueryService.Handle(query);
+        var tutorials = await tutorialQueryService.Handle(query);
 
-        if (result.Count() == 0) return NotFound();
+        if (!tutorials.Any())
+            return NotFound();
 
-        return Ok(result);
+        var resources = tutorials
+            .Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity)
+            .ToList();
+
+        return Ok(resources);
     }
 
-    // GET api/<Tutorial>/5
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    // GET: api/tutorial/5
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        return Ok();
+        var query = new GetTutorialByIdQuery(id);
+        var tutorial = await tutorialQueryService.Handle(query);
+
+        if (tutorial == null)
+            return NotFound();
+
+        var resource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
+
+        return Ok(resource);
     }
 
-    // POST api/<Tutorial>
+    // POST: api/tutorial
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateTutorialResource createTutorialResource)
+    public async Task<IActionResult> Create([FromBody] CreateTutorialResource createTutorialResource)
     {
-        try
-        {
-            var createTutorialCommand =
-                CreateTutorialCommandFromResourceAssembler.ToCommandFromResource(createTutorialResource);
+        if (createTutorialResource == null)
+            return BadRequest("Invalid resource data.");
 
-            await _tutorialCommandService.Handle(createTutorialCommand);
+        var command = CreateTutorialCommandFromResourceAssembler
+            .ToCommandFromResource(createTutorialResource);
 
-            return StatusCode(201);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500);
-        }
+        var result = await tutorialCommandService.Handle(command);
+
+        return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });
     }
 
-    // PUT api/<Tutorial>/5
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] string value)
+    // PUT: api/tutorial/5
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateTutorialResource updateTutorialResource)
     {
-        return Ok();
+        if (updateTutorialResource == null)
+            return BadRequest("Invalid resource data.");
+
+        var command = UpdateTutorialCommandFromResourceAssembler
+            .ToCommandFromResource(id, updateTutorialResource);
+
+        var result = await tutorialCommandService.Handle(command);
+
+        return result ? NoContent() : NotFound();
     }
 
-    // PUT api/<Tutorial>/5
-    // [HttpPatch("{id}")]
-    // public void Patch(int id, [FromBody] string value)
-    // {
-    // }
-
-
-    // DELETE api/<Tutorial>/5
-    [HttpDelete("{id}")]
+    // DELETE: api/tutorial/5
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        return Ok();
+        var command = new DeleteTutorialCommand(id);
+        var result = await tutorialCommandService.Handle(command);
+
+        return result ? NoContent() : NotFound();
     }
 }

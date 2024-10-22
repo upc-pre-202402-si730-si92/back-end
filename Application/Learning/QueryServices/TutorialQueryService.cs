@@ -17,18 +17,11 @@ public class TutorialQueryService : ITutorialQueryService
     //overload
     public async Task<IEnumerable<Tutorial>?> Handle(GetAllTutorialsQuery query)
     {
-        // new TutorialRepository().ListAsync();
-        // new TutorialOracleRepository().ListAsync();
-        //return    _repository.ListAsync();
         return await _repository.ListAsync();
     }
 
-    public Task<List<Tutorial>?> Handle(GetTutorialByIdQuery query)
+    public async Task<Tutorial?> Handle(GetTutorialByIdQuery query)
     {
-        // new TutorialRepository().ListAsync();
-        // new TutorialOracleRepository().ListAsync();
-        //return    _repository.ListAsync();
-
-        throw new NotImplementedException();
+        return await _repository.FindByIdAsync(query.Id);
     }
 }

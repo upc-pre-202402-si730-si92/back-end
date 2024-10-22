@@ -24,9 +24,32 @@ public class TutorialCommandService : ITutorialCommandService
             Title = command.Title,
             Summary = command.Summary
         };
-        //if (tutorial.Quantity > 10) throw new Exception("Quantity must be less tha 10");
+
         await _tutorialRepository.AddAsync(tutorial);
         await _unitOfWork.CompleteAsync();
         return tutorial.Id;
+    }
+
+    public async Task<bool> Handle(UpdateTutorialCommand command)
+    {
+        var tutorial = new Tutorial
+        {
+            Title = command.Title,
+            Summary = command.Summary
+        };
+        await _tutorialRepository.UpdateAsync(tutorial);
+        await _unitOfWork.CompleteAsync();
+
+        return true;
+    }
+
+    public async Task<bool> Handle(DeleteTutorialCommand command)
+    {
+        var tutorial = await _tutorialRepository.FindByIdAsync(command.Id);
+
+        await _tutorialRepository.RemoveAsync(tutorial);
+        await _unitOfWork.CompleteAsync();
+
+        return true;
     }
 }

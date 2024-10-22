@@ -4,10 +4,6 @@ using Domain.Learning.Services;
 
 namespace Application.Security.QueryServices;
 
-public class UserQueryService : ITutorialQueryService
+public class UserQueryService
 {
-    public Task<IEnumerable<Tutorial?>> Handle(GetAllTutorialsQuery query)
-    {
-        throw new NotImplementedException();
-    }
 }

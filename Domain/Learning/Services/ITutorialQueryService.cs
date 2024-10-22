@@ -6,4 +6,5 @@ namespace Domain.Learning.Services;
 public interface ITutorialQueryService
 {
     Task<IEnumerable<Tutorial>?> Handle(GetAllTutorialsQuery query); //signature
+    Task<Tutorial?> Handle(GetTutorialByIdQuery query); //signature
 }

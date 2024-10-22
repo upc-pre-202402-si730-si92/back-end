@@ -1,3 +1,5 @@
-﻿namespace Presentation.Learning.Resources;
+﻿using Domain.Learning.Model.Commands;
 
-public record UpdateTutorialResource;
+namespace Presentation.Learning.Resources;
+
+public record UpdateTutorialResource(string Title, string Summary);

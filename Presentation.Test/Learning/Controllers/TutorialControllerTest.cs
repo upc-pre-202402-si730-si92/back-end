@@ -4,6 +4,7 @@ using Domain.Learning.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NSubstitute;
+using NuGet.Packaging.Licenses;
 using Presentation.Learning.Controllers;
 
 namespace Presentation.Test.Learning.Controllers;
@@ -14,9 +15,9 @@ public class TutorialControllerTest
     public async Task Get_WithoutParams_ReturnsListTutorials()
     {
         //Arrange
-        var  tutorialCommandServiceMock = Substitute.For<ITutorialCommandService>();
+        var tutorialCommandServiceMock = Substitute.For<ITutorialCommandService>();
         var tutorialQueryServiceMock = Substitute.For<ITutorialQueryService>();
-       // var tutorialCommandServiceMock = new Mock<ITutorialCommandService>();
+        // var tutorialCommandServiceMock = new Mock<ITutorialCommandService>();
         //var tutorialQueryServiceMock = new Mock<ITutorialQueryService>();
 
         var controller = new TutorialController(tutorialQueryServiceMock, tutorialCommandServiceMock);
@@ -28,11 +29,11 @@ public class TutorialControllerTest
         } as IEnumerable<Tutorial>;
 
         var query = new GetAllTutorialsQuery();
-       tutorialQueryServiceMock.Handle(query).Returns(Task.FromResult(expectedResult));
-       //tutorialQueryServiceMock.Setup(t=>t.Handle(query)).ReturnsAsync(expectedResult);
+        tutorialQueryServiceMock.Handle(query).Returns(Task.FromResult(expectedResult));
+        //tutorialQueryServiceMock.Setup(t=>t.Handle(query)).ReturnsAsync(expectedResult);
 
         //Act}
-        var result = await controller.Get();
+        var result = await controller.GetAll();
 
         //Assert
         Assert.IsType<OkObjectResult>(result);
@@ -44,20 +45,18 @@ public class TutorialControllerTest
         //Arrange
         var tutorialCommandServiceMock = Substitute.For<ITutorialCommandService>();
         var tutorialQueryServiceMock = Substitute.For<ITutorialQueryService>();
-
         var controller = new TutorialController(tutorialQueryServiceMock, tutorialCommandServiceMock);
-
         var expectedResult = new List<Tutorial>() as IEnumerable<Tutorial>;
-
         var query = new GetAllTutorialsQuery();
 
         tutorialQueryServiceMock.Handle(query).Returns(Task.FromResult(expectedResult));
 
 
-        //Act}
-        var result = await controller.Get();
+        //Act
+        var result = await controller.GetAll();
 
         //Assert
         Assert.IsType<NotFoundResult>(result);
+        //Assert.Throws<ExceptionData>(result);
     }
 }

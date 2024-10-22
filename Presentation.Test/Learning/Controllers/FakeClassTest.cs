@@ -15,9 +15,9 @@ public class FakeClassTest
         var fakeClass = new FakeClass();
 
         //act
-        var result = fakeClass.Add(numberA, numberB);
+        var actual = fakeClass.Add(numberA, numberB);
 
         //Assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, actual);
     }
 }
