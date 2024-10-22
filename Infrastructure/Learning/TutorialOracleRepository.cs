@@ -1,11 +1,9 @@
 ﻿using Domain.Learning.Model.Entities;
 using Domain.Learning.Repositories;
-using Infrastructure.Shared.Persistence.EFC.Configuration;
-using Infrastructure.Shared.Persistence.EFC.Repositories;
 
 namespace Infrastructure.Learning;
 
-public class TutorialOracleRepository :  ITutorialRepository
+public class TutorialOracleRepository : ITutorialRepository
 {
     public Task AddAsync(Tutorial entity)
     {

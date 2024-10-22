@@ -2,7 +2,6 @@
 
 public record GetAllTutorialsQuery;
 
-
 //Clase
 //STruct
 //Record

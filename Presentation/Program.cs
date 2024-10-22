@@ -24,7 +24,6 @@ builder.Services.AddScoped<ITutorialCommandService, TutorialCommandService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
-
 //Conexion a MySQL 
 var connectionString = builder.Configuration.GetConnectionString("learningCenterConnection");
 
@@ -44,7 +43,6 @@ builder.Services.AddDbContext<AppDbContext>(
     });
 
 var app = builder.Build();
-
 
 
 EnsureDatabaseCreation(app);

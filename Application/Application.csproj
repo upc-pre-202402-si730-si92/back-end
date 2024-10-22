@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Security\CommandServices\" />
+        <Folder Include="Security\CommandServices\"/>
     </ItemGroup>
 
 </Project>

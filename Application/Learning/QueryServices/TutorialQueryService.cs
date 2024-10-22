@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using Domain.Learning.Model.Entities;
+﻿using Domain.Learning.Model.Entities;
 using Domain.Learning.Model.Queries;
 using Domain.Learning.Repositories;
 using Domain.Learning.Services;
-using Infrastructure.Learning;
 
 namespace Application.Learning.QueryServices;
 
@@ -15,22 +13,22 @@ public class TutorialQueryService : ITutorialQueryService
     {
         _repository = repository;
     }
-    
+
     //overload
     public async Task<IEnumerable<Tutorial>?> Handle(GetAllTutorialsQuery query)
     {
-       // new TutorialRepository().ListAsync();
-       // new TutorialOracleRepository().ListAsync();
-      //return    _repository.ListAsync();
-      return await _repository.ListAsync();
+        // new TutorialRepository().ListAsync();
+        // new TutorialOracleRepository().ListAsync();
+        //return    _repository.ListAsync();
+        return await _repository.ListAsync();
     }
+
     public Task<List<Tutorial>?> Handle(GetTutorialByIdQuery query)
     {
         // new TutorialRepository().ListAsync();
         // new TutorialOracleRepository().ListAsync();
         //return    _repository.ListAsync();
-  
+
         throw new NotImplementedException();
     }
-
 }

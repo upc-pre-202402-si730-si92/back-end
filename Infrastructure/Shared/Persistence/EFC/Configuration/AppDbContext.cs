@@ -1,21 +1,21 @@
 ﻿using Domain.Learning.Model.Entities;
 using Domain.Security.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Shared.Persistence.EFC.Configuration;
 
 public class AppDbContext : DbContext
-{    
+{
     private readonly IConfiguration _configuration;
+
     public AppDbContext(IConfiguration configuration)
-    {       
+    {
         _configuration = configuration;
     }
 
     public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
-    {       
+    {
         _configuration = configuration;
     }
 
@@ -42,9 +42,43 @@ public class AppDbContext : DbContext
             .HasDefaultValue("Test title");
 
         builder.Entity<Tutorial>().ToTable("Tutorial")
-            .Property(c => c.IsActive);
+            .Property(c => c.IsActive)
+            .HasDefaultValue(true);
 
-        builder.Entity<Section>().ToTable("Section");
-        builder.Entity<User>().ToTable("User");
+        builder.Entity<Tutorial>()
+            .ToTable("Tutorial")
+            .Property(c => c.CreatedDate)
+            .HasColumnType("TIMESTAMP")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+        builder.Entity<Tutorial>()
+            .ToTable("Tutorial")
+            .HasMany(t => t.Sections) // Define the relationship
+            .WithOne(s => s.Tutorial) // Specify the inverse navigation property
+            .HasForeignKey(s => s.TutorialId) // Define the foreign key in Section
+            .OnDelete(DeleteBehavior
+                .Cascade); // Optional: define behavior on delete (Cascade means deleting a Tutorial will delete related Sections)
+
+
+        builder.Entity<Section>().ToTable("Section")
+            .Property(c => c.IsActive)
+            .HasDefaultValue(true);
+
+        builder.Entity<Section>()
+            .ToTable("Section")
+            .Property(c => c.CreatedDate)
+            .HasColumnType("TIMESTAMP")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        builder.Entity<User>()
+            .ToTable("User")
+            .Property(c => c.CreatedDate)
+            .HasColumnType("TIMESTAMP")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        builder.Entity<User>().ToTable("User")
+            .Property(c => c.IsActive)
+            .HasDefaultValue(true);
     }
 }

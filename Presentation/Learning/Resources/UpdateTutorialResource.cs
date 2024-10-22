@@ -1,3 +1,3 @@
 ﻿namespace Presentation.Learning.Resources;
 
-public record UpdateTutorialResource();
+public record UpdateTutorialResource;

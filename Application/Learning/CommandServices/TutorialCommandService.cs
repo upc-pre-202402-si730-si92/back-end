@@ -16,10 +16,10 @@ public class TutorialCommandService : ITutorialCommandService
         _tutorialRepository = tutorialRepository;
         _unitOfWork = unitOfWork;
     }
-    
+
     public async Task<int> Handle(CreateTutorialCommand command)
     {
-        var tutorial = new Tutorial()
+        var tutorial = new Tutorial
         {
             Title = command.Title,
             Summary = command.Summary
