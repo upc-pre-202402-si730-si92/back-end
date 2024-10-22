@@ -32,13 +32,18 @@ public class TutorialCommandService : ITutorialCommandService
 
     public async Task<bool> Handle(UpdateTutorialCommand command)
     {
-        var tutorial = new Tutorial
+  
+        var existingTutorial = await _tutorialRepository.FindByIdAsync(command.Id);
+        if (existingTutorial == null)
         {
-            Title = command.Title,
-            Summary = command.Summary
-        };
-        await _tutorialRepository.UpdateAsync(tutorial);
-        await _unitOfWork.CompleteAsync();
+            return false;
+        }
+
+        existingTutorial.Title = command.Title;
+        existingTutorial.Summary = command.Summary;
+
+        await _tutorialRepository.UpdateAsync(existingTutorial);
+         await _unitOfWork.CompleteAsync();
 
         return true;
     }
