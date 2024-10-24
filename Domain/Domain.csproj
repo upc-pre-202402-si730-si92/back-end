@@ -15,6 +15,7 @@
         <Folder Include="Security\Model\ValueObjects\"/>
         <Folder Include="Security\Repositories\"/>
         <Folder Include="Security\Services\"/>
+        <Folder Include="Shared\Exceptions\" />
     </ItemGroup>
 
 </Project>

@@ -50,15 +50,23 @@ public class TutorialController(
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTutorialResource createTutorialResource)
     {
-        if (createTutorialResource == null)
-            return BadRequest("Invalid resource data.");
+        try
+        {
+            if (createTutorialResource == null)
+                return BadRequest("Invalid resource data.");
 
-        var command = CreateTutorialCommandFromResourceAssembler
-            .ToCommandFromResource(createTutorialResource);
+            var command = CreateTutorialCommandFromResourceAssembler
+                .ToCommandFromResource(createTutorialResource);
 
-        var result = await tutorialCommandService.Handle(command);
+            var result = await tutorialCommandService.Handle(command);
 
-        return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });
+            return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });
+        }
+        catch (Exception ex)
+        {
+            //Guardarlo - loggearlo
+          throw  ex;
+        }
     }
 
     // PUT: api/tutorial/5

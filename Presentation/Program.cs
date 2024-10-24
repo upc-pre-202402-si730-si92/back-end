@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Azure inight
+builder.Services.AddApplicationInsightsTelemetry();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
