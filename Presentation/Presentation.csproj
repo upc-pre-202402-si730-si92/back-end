@@ -23,7 +23,6 @@
 
     <ItemGroup>
         <Folder Include="Security\Controllers\"/>
-        <Folder Include="Shared\Middleware\" />
     </ItemGroup>
 
     <ItemGroup>

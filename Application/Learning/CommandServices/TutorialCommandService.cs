@@ -1,4 +1,5 @@
-﻿using Domain.Learning.Model.Commands;
+﻿using System.Data;
+using Domain.Learning.Model.Commands;
 using Domain.Learning.Model.Entities;
 using Domain.Learning.Repositories;
 using Domain.Learning.Services;
@@ -19,11 +20,19 @@ public class TutorialCommandService : ITutorialCommandService
 
     public async Task<int> Handle(CreateTutorialCommand command)
     {
+
+        if (command.Title.Length == 0) throw new Exception("Title mut be more than 0");
+        
         var tutorial = new Tutorial
         {
             Title = command.Title,
             Summary = command.Summary
         };
+
+        var existingTutorial = await _tutorialRepository.FindByTitleAsync(tutorial.Title);
+
+        
+        if (existingTutorial != null) throw new DuplicateNameException("titel duplicated name");
 
         await _tutorialRepository.AddAsync(tutorial);
         await _unitOfWork.CompleteAsync();

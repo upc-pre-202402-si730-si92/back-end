@@ -1,6 +1,17 @@
-﻿namespace Presentation.Learning.Resources;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record CreateTutorialResource(string Title, string Summary);
+namespace Presentation.Learning.Resources;
+
+public record CreateTutorialResource(
+    [Required]
+    [MinLength(3)]
+    [MaxLength(10)]
+    string Title,
+    
+    [Required]
+    [MinLength(10)]
+    [MaxLength(25)]
+    string Summary);
 
 /*{
     public string Title { get; set; }

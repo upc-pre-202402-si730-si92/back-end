@@ -18,17 +18,24 @@ public class TutorialController(
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var query = new GetAllTutorialsQuery();
-        var tutorials = await tutorialQueryService.Handle(query);
+        try
+        {
+            var query = new GetAllTutorialsQuery();
+            var tutorials = await tutorialQueryService.Handle(query);
 
-        if (!tutorials.Any())
-            return NotFound();
+            if (!tutorials.Any())
+                return NotFound();
 
-        var resources = tutorials
-            .Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity)
-            .ToList();
+            var resources = tutorials
+                .Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity)
+                .ToList();
 
-        return Ok(resources);
+            return Ok(resources);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500);
+        }
     }
 
     // GET: api/tutorial/5
@@ -52,12 +59,11 @@ public class TutorialController(
     {
         try
         {
-            if (createTutorialResource == null)
-                return BadRequest("Invalid resource data.");
-
+            if ( createTutorialResource == null || !ModelState.IsValid) return BadRequest("Invalid resource data.");
+            
             var command = CreateTutorialCommandFromResourceAssembler
                 .ToCommandFromResource(createTutorialResource);
-
+            
             var result = await tutorialCommandService.Handle(command);
 
             return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });

@@ -7,6 +7,7 @@ using Infrastructure.Learning;
 using Infrastructure.Shared.Persistence.EFC.Configuration;
 using Infrastructure.Shared.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Presentation.Shared.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();
 
