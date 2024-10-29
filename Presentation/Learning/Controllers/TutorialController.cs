@@ -1,4 +1,5 @@
 using Domain.Learning.Model.Commands;
+using Domain.Learning.Model.Entities;
 using Domain.Learning.Model.Queries;
 using Domain.Learning.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +15,19 @@ public class TutorialController(
     ITutorialCommandService tutorialCommandService)
     : ControllerBase
 {
+    
     // GET: api/tutorial
+    /// <summary>
+    /// method for get all active tutorials
+    /// </summary>
+    /// <response code="200">Returns all the tutorials without filter</response>
+    /// <response code="404">Tutorial not found</response>
+    /// <response code="500">Error with server</response>
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<Tutorial>),200 )]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
+    [Produces("application/json")]
     public async Task<IActionResult> GetAll()
     {
         try
@@ -39,6 +51,11 @@ public class TutorialController(
     }
 
     // GET: api/tutorial/5
+    /// <summary>
+    /// This method is to get tutorial by Id
+    /// </summary>
+    /// <param name="id">the id is the identifier of the tutorial </param>
+    /// <returns></returns>
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -53,8 +70,22 @@ public class TutorialController(
         return Ok(resource);
     }
 
+    
     // POST: api/tutorial
+    /// <summary>
+    /// method for create new Tutorial
+    /// </summary>
+    /// <remarks>
+    ///     sample Request
+    ///     POST /api/tutorial
+    ///     {
+    ///        "title": "New tutorial",
+    ///        "summary": "Description of tutorial"
+    ///     }
+    ///
+    /// </remarks>
     [HttpPost]
+    
     public async Task<IActionResult> Create([FromBody] CreateTutorialResource createTutorialResource)
     {
         try
