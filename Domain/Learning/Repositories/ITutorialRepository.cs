@@ -5,5 +5,5 @@ namespace Domain.Learning.Repositories;
 
 public interface ITutorialRepository : IBaseRepository<Tutorial>
 {
-    public  Task<Tutorial?> FindByTitleAsync(string title);
+    public Task<Tutorial?> FindByTitleAsync(string title);
 }

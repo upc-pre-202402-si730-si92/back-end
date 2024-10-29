@@ -20,9 +20,8 @@ public class TutorialCommandService : ITutorialCommandService
 
     public async Task<int> Handle(CreateTutorialCommand command)
     {
-
         if (command.Title.Length == 0) throw new Exception("Title mut be more than 0");
-        
+
         var tutorial = new Tutorial
         {
             Title = command.Title,
@@ -31,7 +30,7 @@ public class TutorialCommandService : ITutorialCommandService
 
         var existingTutorial = await _tutorialRepository.FindByTitleAsync(tutorial.Title);
 
-        
+
         if (existingTutorial != null) throw new DuplicateNameException("titel duplicated name");
 
         await _tutorialRepository.AddAsync(tutorial);
@@ -41,7 +40,6 @@ public class TutorialCommandService : ITutorialCommandService
 
     public async Task<bool> Handle(UpdateTutorialCommand command)
     {
-  
         var existingTutorial = await _tutorialRepository.FindByIdAsync(command.Id);
         if (existingTutorial == null)
         {
@@ -52,7 +50,7 @@ public class TutorialCommandService : ITutorialCommandService
         existingTutorial.Summary = command.Summary;
 
         await _tutorialRepository.UpdateAsync(existingTutorial);
-         await _unitOfWork.CompleteAsync();
+        await _unitOfWork.CompleteAsync();
 
         return true;
     }

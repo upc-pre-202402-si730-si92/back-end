@@ -8,6 +8,11 @@ using Presentation.Learning.Transform;
 
 namespace Presentation.Learning.Controllers;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="tutorialQueryService"></param>
+/// <param name="tutorialCommandService"></param>
 [Route("api/[controller]")]
 [ApiController]
 public class TutorialController(
@@ -15,16 +20,15 @@ public class TutorialController(
     ITutorialCommandService tutorialCommandService)
     : ControllerBase
 {
-    
-    // GET: api/tutorial
     /// <summary>
-    /// method for get all active tutorials
+    /// Gets all active tutorials.
     /// </summary>
+    /// <returns>Returns a list of all active tutorials.</returns>
     /// <response code="200">Returns all the tutorials without filter</response>
-    /// <response code="404">Tutorial not found</response>
-    /// <response code="500">Error with server</response>
+    /// <response code="404">No tutorials found</response>
+    /// <response code="500">An error occurred on the server</response>
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<Tutorial>),200 )]
+    [ProducesResponseType(typeof(IEnumerable<Tutorial>), 200)]
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [Produces("application/json")]
@@ -35,7 +39,7 @@ public class TutorialController(
             var query = new GetAllTutorialsQuery();
             var tutorials = await tutorialQueryService.Handle(query);
 
-            if (!tutorials.Any())
+            if (tutorials != null && !tutorials.Any())
                 return NotFound();
 
             var resources = tutorials
@@ -50,13 +54,16 @@ public class TutorialController(
         }
     }
 
-    // GET: api/tutorial/5
     /// <summary>
-    /// This method is to get tutorial by Id
+    /// Gets a tutorial by its unique ID.
     /// </summary>
-    /// <param name="id">the id is the identifier of the tutorial </param>
-    /// <returns></returns>
+    /// <param name="id">The unique identifier of the tutorial.</param>
+    /// <returns>Returns the tutorial if found.</returns>
+    /// <response code="200">Returns the tutorial with the specified ID</response>
+    /// <response code="404">Tutorial not found</response>
     [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(Tutorial), 200)]
+    [ProducesResponseType(404)]
     public async Task<IActionResult> GetById(int id)
     {
         var query = new GetTutorialByIdQuery(id);
@@ -70,13 +77,17 @@ public class TutorialController(
         return Ok(resource);
     }
 
-    
-    // POST: api/tutorial
+
     /// <summary>
-    /// method for create new Tutorial
+    /// Creates a new tutorial.
     /// </summary>
+    /// <param name="createTutorialResource">The details of the tutorial to create.</param>
+    /// <returns>Returns the newly created tutorial.</returns>
+    /// <response code="201">Tutorial created successfully</response>
+    /// <response code="400">Invalid tutorial data</response>
     /// <remarks>
-    ///     sample Request
+    /// Sample request:
+    ///
     ///     POST /api/tutorial
     ///     {
     ///        "title": "New tutorial",
@@ -85,32 +96,35 @@ public class TutorialController(
     ///
     /// </remarks>
     [HttpPost]
-    
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> Create([FromBody] CreateTutorialResource createTutorialResource)
     {
-        try
-        {
-            if ( createTutorialResource == null || !ModelState.IsValid) return BadRequest("Invalid resource data.");
-            
-            var command = CreateTutorialCommandFromResourceAssembler
-                .ToCommandFromResource(createTutorialResource);
-            
-            var result = await tutorialCommandService.Handle(command);
+        if (!ModelState.IsValid) return BadRequest("Invalid resource data.");
 
-            return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });
-        }
-        catch (Exception ex)
-        {
-            //Guardarlo - loggearlo
-          throw  ex;
-        }
+        var command = CreateTutorialCommandFromResourceAssembler
+            .ToCommandFromResource(createTutorialResource);
+
+        var result = await tutorialCommandService.Handle(command);
+
+        return CreatedAtAction(nameof(GetById), new { id = result }, new { data = result });
     }
 
-    // PUT: api/tutorial/5
+    /// <summary>
+    /// Updates an existing tutorial by ID.
+    /// </summary>
+    /// <param name="id">The ID of the tutorial to update.</param>
+    /// <param name="updateTutorialResource">The updated tutorial details.</param>
+    /// <response code="204">Tutorial updated successfully</response>
+    /// <response code="400">Invalid tutorial data</response>
+    /// <response code="404">Tutorial not found</response>
     [HttpPut("{id:int}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateTutorialResource updateTutorialResource)
     {
-        if (updateTutorialResource == null)
+        if (!ModelState.IsValid)
             return BadRequest("Invalid resource data.");
 
         var command = UpdateTutorialCommandFromResourceAssembler
@@ -121,8 +135,15 @@ public class TutorialController(
         return result ? NoContent() : NotFound();
     }
 
-    // DELETE: api/tutorial/5
+    /// <summary>
+    /// Deletes a tutorial by ID.
+    /// </summary>
+    /// <param name="id">The ID of the tutorial to delete.</param>
+    /// <response code="204">Tutorial deleted successfully</response>
+    /// <response code="404">Tutorial not found</response>
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(int id)
     {
         var command = new DeleteTutorialCommand(id);

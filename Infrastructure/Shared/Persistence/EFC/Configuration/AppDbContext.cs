@@ -41,9 +41,9 @@ public class AppDbContext : DbContext
             .Property(c => c.Summary).HasMaxLength(300)
             .HasDefaultValue("Test title");
 
-       /* builder.Entity<Tutorial>().ToTable("Tutorial")
-            .Property(c => c.IsActive)
-            .HasDefaultValue(true);*/
+        /* builder.Entity<Tutorial>().ToTable("Tutorial")
+             .Property(c => c.IsActive)
+             .HasDefaultValue(true);*/
 
         builder.Entity<Tutorial>()
             .ToTable("Tutorial")
@@ -61,9 +61,9 @@ public class AppDbContext : DbContext
                 .Cascade); // Optional: define behavior on delete (Cascade means deleting a Tutorial will delete related Sections)
 
 
-       /* builder.Entity<Section>().ToTable("Section")
-            .Property(c => c.IsActive)
-            .HasDefaultValue(true);*/
+        /* builder.Entity<Section>().ToTable("Section")
+             .Property(c => c.IsActive)
+             .HasDefaultValue(true);*/
 
         builder.Entity<Section>()
             .ToTable("Section")
@@ -77,8 +77,8 @@ public class AppDbContext : DbContext
             .HasColumnType("TIMESTAMP")
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-      /*  builder.Entity<User>().ToTable("User")
-            .Property(c => c.IsActive)
-            .HasDefaultValue(true);*/
+        /*  builder.Entity<User>().ToTable("User")
+              .Property(c => c.IsActive)
+              .HasDefaultValue(true);*/
     }
 }

@@ -7,7 +7,6 @@ public record CreateTutorialResource(
     [MinLength(3)]
     [MaxLength(10)]
     string Title,
-    
     [Required]
     [MinLength(10)]
     [MaxLength(25)]
