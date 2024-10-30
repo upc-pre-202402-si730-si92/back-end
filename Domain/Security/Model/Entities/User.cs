@@ -4,4 +4,6 @@ namespace Domain.Security.Model.Entities;
 
 public class User : ModelBase
 {
+    public string Username { get; set; }
+    public string PasswordHash { get; set; }
 }
