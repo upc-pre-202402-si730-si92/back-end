@@ -61,7 +61,6 @@ builder.Services.AddScoped<IEncryptService, EncryptService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
-
 //Conexion a MySQL 
 var connectionString = builder.Configuration.GetConnectionString("learningCenterConnection");
 

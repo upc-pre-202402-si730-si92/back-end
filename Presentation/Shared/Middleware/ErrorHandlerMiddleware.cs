@@ -36,7 +36,6 @@ public class ErrorHandlerMiddleware
             code = HttpStatusCode.Conflict;
         }
 
-
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
         await context.Response.WriteAsync(message);

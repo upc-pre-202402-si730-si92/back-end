@@ -11,10 +11,6 @@ namespace Presentation.Security.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        
-        
-        
-        
         /// <summary>
         /// Gets the user value by ID.
         /// </summary>

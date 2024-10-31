@@ -1,5 +1,6 @@
 ﻿using Domain.Learning.Model.Entities;
 using Domain.Security.Model.Entities;
+using Domain.Shared.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -41,44 +42,12 @@ public class AppDbContext : DbContext
             .Property(c => c.Summary).HasMaxLength(300)
             .HasDefaultValue("Test title");
 
-        /* builder.Entity<Tutorial>().ToTable("Tutorial")
-             .Property(c => c.IsActive)
-             .HasDefaultValue(true);*/
-
-        builder.Entity<Tutorial>()
-            .ToTable("Tutorial")
-            .Property(c => c.CreatedDate)
-            .HasColumnType("TIMESTAMP")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-
         builder.Entity<Tutorial>()
             .ToTable("Tutorial")
             .HasMany(t => t.Sections) // Define the relationship
             .WithOne(s => s.Tutorial) // Specify the inverse navigation property
             .HasForeignKey(s => s.TutorialId) // Define the foreign key in Section
             .OnDelete(DeleteBehavior
-                .Cascade); // Optional: define behavior on delete (Cascade means deleting a Tutorial will delete related Sections)
-
-
-        /* builder.Entity<Section>().ToTable("Section")
-             .Property(c => c.IsActive)
-             .HasDefaultValue(true);*/
-
-        builder.Entity<Section>()
-            .ToTable("Section")
-            .Property(c => c.CreatedDate)
-            .HasColumnType("TIMESTAMP")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        builder.Entity<User>()
-            .ToTable("User")
-            .Property(c => c.CreatedDate)
-            .HasColumnType("TIMESTAMP")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        /*  builder.Entity<User>().ToTable("User")
-              .Property(c => c.IsActive)
-              .HasDefaultValue(true);*/
+                .Cascade);
     }
 }
