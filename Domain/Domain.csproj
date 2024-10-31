@@ -12,7 +12,6 @@
         <Folder Include="Security\Model\Aggregates\"/>
         <Folder Include="Security\Model\Queries\"/>
         <Folder Include="Security\Model\ValueObjects\"/>
-        <Folder Include="Security\Repositories\"/>
         <Folder Include="Shared\Exceptions\"/>
     </ItemGroup>
 

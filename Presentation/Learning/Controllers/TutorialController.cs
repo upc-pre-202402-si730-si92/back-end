@@ -2,6 +2,7 @@ using Domain.Learning.Model.Commands;
 using Domain.Learning.Model.Entities;
 using Domain.Learning.Model.Queries;
 using Domain.Learning.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Learning.Resources;
 using Presentation.Learning.Transform;
@@ -32,6 +33,7 @@ public class TutorialController(
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [Produces("application/json")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
         try

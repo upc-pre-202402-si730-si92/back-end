@@ -4,10 +4,17 @@ using Presentation.Security.Resources;
 
 namespace Presentation.Security.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
+        
+        
+        
+        
         /// <summary>
         /// Gets the user value by ID.
         /// </summary>
