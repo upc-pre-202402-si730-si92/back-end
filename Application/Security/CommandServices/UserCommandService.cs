@@ -7,22 +7,12 @@ using Domain.Shared;
 
 namespace Application.Security.CommandServices;
 
-public class UserCommandService : IUserCommandService
+public class UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork, IEncryptService encryptService)
+    : IUserCommandService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IEncryptService _encryptService;
-
-    public UserCommandService(IUserRepository userRepository, IUnitOfWork unitOfWork, IEncryptService encryptService)
-    {
-        _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
-        _encryptService = encryptService;
-    }
-
     public Task<(User user, string token)> Handle(SignInCommand command)
     {
-        throw new NotImplementedException();
+  throw new NotImplementedException();
     }
 
     public async Task Handle(SignUpCommand command)
@@ -30,11 +20,11 @@ public class UserCommandService : IUserCommandService
         var user = new User
         {
             Username = command.Username,
-            PasswordHash = _encryptService.Encrypt(command.Password),
+            PasswordHash = encryptService.Encrypt(command.Password),
             Role = command.Role
         };
 
-        await _userRepository.AddAsync(user);
-        await _unitOfWork.CompleteAsync();
+        await userRepository.AddAsync(user);
+        await unitOfWork.CompleteAsync();
     }
 }

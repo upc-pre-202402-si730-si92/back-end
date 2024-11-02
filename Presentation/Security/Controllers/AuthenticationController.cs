@@ -13,15 +13,8 @@ namespace Presentation.Security.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController(IUserCommandService userCommandService) : ControllerBase
     {
-        private readonly IUserCommandService _userCommandService;
-
-        public AuthenticationController(IUserCommandService userCommandService)
-        {
-            _userCommandService = userCommandService;
-        }
-
         /// <summary>
         /// Registers a new user.
         /// </summary>
@@ -35,7 +28,7 @@ namespace Presentation.Security.Controllers
         {
             var command = SignUpCommandFromResourceAssembler.ToCommandFromResource(signUpResource);
 
-            await _userCommandService.Handle(command);
+            await userCommandService.Handle(command);
 
             return StatusCode(201, command);
         }
@@ -46,6 +39,7 @@ namespace Presentation.Security.Controllers
         /// <param name="signInResource">The user's login data.</param>
         /// <returns>A message indicating if the login was successful.</returns>
         [HttpPost("login")]
+        [Produces("application/json")]
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] SignInResource signInResource)
         {
