@@ -4,5 +4,7 @@ using Domain.Shared;
 namespace Domain.Security.Repositories;
 
 public interface IUserRepository : IBaseRepository<User>
-{
+{ 
+    Task<User?> FindByusername(String username);
+
 }

@@ -20,7 +20,7 @@ public class TutorialCommandService : ITutorialCommandService
 
     public async Task<int> Handle(CreateTutorialCommand command)
     {
-        if (command.Title.Length == 0) throw new Exception("Title mut be more than 0");
+        //if (command.Title.Length == 0) throw new Exception("Title mut be more than 0"); no debe estar
 
         var tutorial = new Tutorial
         {
@@ -29,7 +29,6 @@ public class TutorialCommandService : ITutorialCommandService
         };
 
         var existingTutorial = await _tutorialRepository.FindByTitleAsync(tutorial.Title);
-
 
         if (existingTutorial != null) throw new DuplicateNameException("titel duplicated name");
 

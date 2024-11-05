@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Learning.Resources;
 using Presentation.Learning.Transform;
+using Presentation.Shared.Filters;
 
 namespace Presentation.Learning.Controllers;
 
@@ -16,6 +17,7 @@ namespace Presentation.Learning.Controllers;
 /// <param name="tutorialCommandService"></param>
 [Route("api/[controller]")]
 [ApiController]
+[CustomAuthorize("mkt")]
 public class TutorialController(
     ITutorialQueryService tutorialQueryService,
     ITutorialCommandService tutorialCommandService)
@@ -33,7 +35,7 @@ public class TutorialController(
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [Produces("application/json")]
-    [AllowAnonymous]
+
     public async Task<IActionResult> GetAll()
     {
         try
@@ -100,6 +102,7 @@ public class TutorialController(
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [CustomAuthorize("admin")]
     public async Task<IActionResult> Create([FromBody] CreateTutorialResource createTutorialResource)
     {
         if (!ModelState.IsValid) return BadRequest("Invalid resource data.");

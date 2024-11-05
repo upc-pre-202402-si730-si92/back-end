@@ -11,6 +11,7 @@ using Infrastructure.Learning;
 using Infrastructure.Security;
 using Infrastructure.Shared.Persistence.EFC.Configuration;
 using Infrastructure.Shared.Persistence.EFC.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Presentation.Shared.Middleware;
@@ -58,7 +59,12 @@ builder.Services.AddScoped<ITutorialCommandService, TutorialCommandService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IEncryptService, EncryptService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
 
 
 //Conexion a MySQL 
@@ -98,6 +104,7 @@ app.MapControllers();
 
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<AuthenticationMiddleware>();
 
 app.Run();
 
