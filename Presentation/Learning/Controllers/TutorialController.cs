@@ -17,7 +17,7 @@ namespace Presentation.Learning.Controllers;
 /// <param name="tutorialCommandService"></param>
 [Route("api/[controller]")]
 [ApiController]
-[CustomAuthorize("mkt")]
+[CustomAuthorize("mkt,admin")]
 public class TutorialController(
     ITutorialQueryService tutorialQueryService,
     ITutorialCommandService tutorialCommandService)
@@ -35,7 +35,6 @@ public class TutorialController(
     [ProducesResponseType(404)]
     [ProducesResponseType(500)]
     [Produces("application/json")]
-
     public async Task<IActionResult> GetAll()
     {
         try
@@ -80,7 +79,6 @@ public class TutorialController(
 
         return Ok(resource);
     }
-
 
     /// <summary>
     /// Creates a new tutorial.

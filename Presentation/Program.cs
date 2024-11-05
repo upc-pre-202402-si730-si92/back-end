@@ -70,6 +70,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //Conexion a MySQL 
 var connectionString = builder.Configuration.GetConnectionString("learningCenterConnection");
 
+
+
+
 builder.Services.AddDbContext<AppDbContext>(
     options =>
     {
@@ -95,6 +98,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//CORS
+app.UseCors(x => x
+    .SetIsOriginAllowed(origin => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 
